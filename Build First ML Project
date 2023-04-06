@@ -1,0 +1,71 @@
+Hi! I'd be happy to help you create a beginner-friendly guide for building your first Machine Learning project. In this example, we'll build a simple image classifier using the popular MNIST dataset, which consists of images of handwritten digits. We'll use Python and TensorFlow, a popular open-source ML library.
+
+Prerequisites:
+
+Basic knowledge of Python programming
+An AWS account (free tier is sufficient)
+Step-by-Step Guide:
+
+Set up an AWS Deep Learning AMI (Amazon Machine Image):
+
+Log in to your AWS Management Console
+Navigate to the EC2 Dashboard
+Click on "Launch Instance"
+In the search bar, type "Deep Learning AMI" and press Enter
+Select the "Deep Learning AMI (Ubuntu 18.04) Version XX.X" (choose the latest version)
+Choose an instance type (t2.micro is sufficient for this project and eligible for the free tier)
+Click on "Review and Launch", then "Launch"
+Create a new key pair or use an existing one, and download the private key file (.pem)
+Launch the instance
+Connect to the EC2 instance:
+
+In the EC2 Dashboard, click on "Instances" in the sidebar
+Select your instance and click on "Connect"
+Follow the instructions to connect via SSH using your downloaded private key file
+Set up the Python environment:
+
+Update the package lists: sudo apt-get update
+Install pip: sudo apt-get install python3-pip
+Install TensorFlow: pip3 install --user tensorflow
+Create a new Python script:
+
+In the terminal, create a new file called "mnist_classifier.py": nano mnist_classifier.py
+Copy and paste the following code into the "mnist_classifier.py" file:
+
+import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten, Dropout
+from tensorflow.keras.optimizers import Adam
+
+# Load the MNIST dataset
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+# Normalize the data
+X_train, X_test = X_train / 255.0, X_test / 255.0
+
+# Define the model
+model = Sequential([
+    Flatten(input_shape=(28, 28)),
+    Dense(128, activation='relu'),
+    Dropout(0.2),
+    Dense(10, activation='softmax')
+])
+
+# Compile the model
+model.compile(optimizer=Adam(), loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Train the model
+model.fit(X_train, y_train, epochs=5)
+
+# Evaluate the model
+test_loss, test_acc = model.evaluate(X_test, y_test)
+print(f'Test accuracy: {test_acc}')
+Save the file and run the script:
+
+Press Ctrl + X, then Y, and then Enter to save and close the file
+Run the script: python3 mnist_classifier.py
+Observe the results:
+
+The script will download the MNIST dataset, train the model, and evaluate its performance. You should see the training progress and the test accuracy.
+Congratulations! You've just built and trained your first Machine Learning model using AWS, Python, and TensorFlow. Feel free to experiment with different model architectures or datasets to further your understanding.
